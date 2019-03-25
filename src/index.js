@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import moment from 'moment';
+import PropTypes from "prop-types";
+ 
+
 
 
 function Avatar ({hash}){
@@ -13,14 +16,19 @@ function Avatar ({hash}){
     )
 };
 
+Avatar.propTypes = {
+  hash: PropTypes.string
+}
+
 function Message ({text}){
-  
     return (
         <div className="message">
             {text}
         </div>
     )
 }
+
+
 const Time = ({time}) => {
   const timeString = moment(
     time
@@ -31,6 +39,20 @@ const Time = ({time}) => {
   </span>
   );
 }
+const LikeButton = ({ count }) => (
+  <span className="like-button">
+    <i className="fa fa-heart"/>
+    {count > 0 &&
+      <span className="like-count">
+        {count}
+      </span>}
+</span> )
+LikeButton.propTypes = {
+  count: PropTypes.number
+};
+
+
+
 const ReplyButton = () =>
   <i className="fa fa-reply \
      reply-button" />;
@@ -55,6 +77,16 @@ const NameWithHandle = ({author}) =>{
   );
 }
 
+NameWithHandle.propTypes = {
+  author: PropTypes.shape({
+    name:
+      PropTypes.string.isRequired,
+    handle:
+      PropTypes.string.isRequired 
+
+  }).isRequired
+}
+
 function getRetweetCount(count){
   if(count > 0){
     return(
@@ -73,14 +105,9 @@ const RetweetButton = ({count})  =>
     {getRetweetCount(count)}
   </span>;
 
-const LikeButton = ({ count }) => (
-  <span className="like-button">
-    <i className="fa fa-heart"/>
-    {count > 0 &&
-      <span className="like-count">
-        {count}
-      </span>}
-</span> )
+RetweetButton.propTypes = {
+  count: PropTypes.number
+}
 
 
 
@@ -119,7 +146,10 @@ function Tweet({tweet}) {
     );
   }
   
-
+  Tweet.propTypes = {
+    tweet: PropTypes.object
+  }
+  
 
 
   ReactDOM.render(
